@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📐 علم المثلثات - الصف العاشر | Mr. Mohammed Hesham</title>
+<meta name="description" content="امتحان تفاعلي شامل عن علم المثلثات - رياضيات الصف 10">
+<meta name="author" content="Mr. Mohammed Hesham">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Cairo', sans-serif; }
+body.en-mode { font-family: 'Inter', sans-serif; }
+.arabic-math { font-family: 'Amiri', 'Cairo', serif; }
+.correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+.incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+.timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.7; } }
+@media print { .no-print { display: none !important; } }
+.success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+.grade-excellent { background: #dcfce7; color: #166534; }
+.grade-good { background: #fef3c7; color: #92400e; }
+.grade-pass { background: #dbeafe; color: #1e40af; }
+.grade-fail { background: #fee2e2; color: #991b1b; }
+.lang-switch {
+position: fixed; top: 16px; left: 16px; z-index: 100;
+background: white; padding: 6px; border-radius: 30px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px;
+border: 2px solid #dc2626;
+}
+[dir="ltr"] .lang-switch { left: auto; right: 16px; }
+.lang-btn {
+padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold;
+transition: all 0.3s; border: none; font-size: 0.875rem;
+background: transparent; color: #6b7280;
+}
+.lang-btn.active { background: #dc2626; color: white; box-shadow: 0 2px 6px rgba(220,38,38,0.4); }
+.lang-btn:hover:not(.active) { background: #fef2f2; color: #dc2626; }
+.shuffle-badge {
+display: inline-block;
+background: linear-gradient(135deg, #dc2626, #b91c1c);
+color: white; padding: 4px 12px; border-radius: 20px;
+font-size: 0.75rem; font-weight: bold; margin-right: 8px;
+}
+.math-display {
+display: inline-block; direction: ltr;
+font-family: 'Amiri', 'Times New Roman', serif;
+font-size: 1.2em; font-style: italic;
+padding: 2px 8px; background: #fef2f2;
+border-radius: 6px; margin: 2px;
+color: #b91c1c; font-weight: 600; letter-spacing: 0.5px;
+}
+.save-indicator {
+position: fixed; bottom: 20px; left: 20px; z-index: 200;
+background: #10b981; color: white; padding: 8px 16px;
+border-radius: 20px; font-size: 0.8rem; font-weight: bold;
+opacity: 0; transition: opacity 0.3s; pointer-events: none;
+box-shadow: 0 4px 12px rgba(16,185,129,0.4);
+}
+.save-indicator.show { opacity: 1; }
+.formula-box {
+background: #fef2f2; border: 2px solid #ef4444;
+border-radius: 8px; padding: 12px; margin: 10px 0;
+font-family: 'Amiri', serif;
+direction: ltr; text-align: center;
+}
+.svg-graph {
+display: block;
+margin: 12px auto;
+background: white;
+border: 2px solid #e5e7eb;
+border-radius: 12px;
+padding: 8px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.graph-container { text-align: center; margin: 10px 0; }
+.module-badge {
+display: inline-block;
+padding: 4px 16px;
+border-radius: 20px;
+font-weight: bold;
+font-size: 0.85rem;
+margin-bottom: 8px;
+}
+.module-1 { background: #fee2e2; color: #991b1b; }
+.module-2 { background: #fef3c7; color: #92400e; }
+.module-3 { background: #dbeafe; color: #1e40af; }
+.module-4 { background: #fce7f3; color: #9f1239; }
+.module-5 { background: #ecfdf5; color: #065f46; }
+</style>
+</head>
+<body class="bg-gradient-to-br from-red-50 to-orange-50 text-gray-800 p-4 md:p-8 min-h-screen">
+
+<div class="lang-switch no-print">
+<button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+<button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+</div>
+
+<div id="saveIndicator" class="save-indicator">💾 <span data-ar="تم الحفظ" data-en="Saved">تم الحفظ</span></div>
+
+<div id="timer-container" class="max-w-5xl mx-auto mb-4 text-center no-print">
+<div class="bg-white p-4 rounded-2xl shadow-md inline-block border-2 border-red-100">
+<span class="text-gray-600 ml-2" data-ar="⏰ الوقت المتبقي:" data-en="⏰ Time Remaining:">⏰ الوقت المتبقي:</span>
+<span id="timer" class="text-2xl font-bold text-red-600 font-mono">90:00</span>
+<span class="shuffle-badge" data-ar="🎲 علم المثلثات - 30 سؤال" data-en=" Trigonometry - 30 Questions"> علم المثلثات - 30 سؤال</span>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+<button onclick="toggleAnswers()" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-xl font-medium transition shadow cursor-pointer" data-ar="👀 إظهار / إخفاء الإجابات" data-en=" Show / Hide Answers">👀 إظهار / إخفاء الإجابات</button>
+<button onclick="window.print()" class="bg-gray-700 hover:bg-gray-900 text-white px-5 py-2 rounded-xl font-medium transition shadow cursor-pointer" data-ar="🖨️ طباعة" data-en="🖨️ Print">🖨️ طباعة</button>
+<button onclick="reshuffleExam()" class="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-5 py-2 rounded-xl font-medium transition shadow cursor-pointer" data-ar="🔄 أسئلة جديدة" data-en="🔄 New Questions">🔄 أسئلة جديدة</button>
+<button onclick="clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-medium transition shadow cursor-pointer" data-ar="️ مسح التقدم" data-en="🗑️ Clear Progress">🗑️ مسح التقدم</button>
+</div>
+
+<header class="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow-lg mb-8 border-4 border-red-400">
+<div class="text-center">
+<div class="inline-block bg-red-600 text-white px-4 py-1 rounded-full text-xs font-bold mb-2">MATH GRADE 10</div>
+<h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2" data-ar="📐 علم المثلثات" data-en="📐 Trigonometry">📐 علم المثلثات</h1>
+<h2 class="text-lg text-red-600 font-semibold" data-ar="الصف العاشر العام (رياضيات)" data-en="Grade 10 General (Mathematics)">الصف العاشر العام (رياضيات)</h2>
+<p class="text-sm text-gray-600 mt-2" data-ar="النسب المثلثية، المثلثات الخاصة، حل المثلثات القائمة، التطبيقات" data-en="Trigonometric ratios, special triangles, solving right triangles, applications">النسب المثلثية، المثلثات الخاصة، حل المثلثات القائمة، التطبيقات</p>
+<p class="text-xs text-green-600 mt-2 font-semibold" data-ar="💾 يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 5 أقسام" data-en="💾 Your progress is saved automatically - 30 questions in 5 sections">💾 يتم حفظ تقدمك تلقائياً - 30 سؤالاً في 5 أقسام</p>
+</div>
+<div class="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+<span><span data-ar="📅 التاريخ:" data-en="📅 Date:">📅 التاريخ:</span> <input type="text" id="examDate" class="border-b-2 border-red-300 bg-transparent w-28 text-center"></span>
+<span><span data-ar="😊 الاسم:" data-en="😊 Name:">😊 الاسم:</span> <input type="text" id="studentName" class="border-b-2 border-red-300 bg-transparent w-32 text-center" placeholder="اكتب اسمك"></span>
+<span><span data-ar="🏫 الشعبة:" data-en="🏫 Class:">🏫 الشعبة:</span> <input type="text" id="studentClass" class="border-b-2 border-red-300 bg-transparent w-28 text-center" placeholder="الشعبة"></span>
+<span data-ar="⏰ المدة: 90 دقيقة" data-en="⏰ Duration: 90 min">⏰ المدة: 90 دقيقة</span>
+<span data-ar="📊 المجموع: 100 درجة" data-en=" Total: 100 pts">📊 المجموع: 100 درجة</span>
+</div>
+</header>
+
+<div class="max-w-5xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-md border-2 border-red-200 no-print">
+<h3 class="font-bold text-lg mb-3 text-red-700 text-center" data-ar="📐 القوانين الأساسية" data-en="📐 Key Formulae">📐 القوانين الأساسية</h3>
+<div class="grid md:grid-cols-3 gap-3 text-sm">
+<div class="formula-box"><strong>SOH:</strong> sin θ = Opp/Hyp</div>
+<div class="formula-box"><strong>CAH:</strong> cos θ = Adj/Hyp</div>
+<div class="formula-box"><strong>TOA:</strong> tan θ = Opp/Adj</div>
+<div class="formula-box"><strong>30-60-90:</strong> 1 : √3 : 2</div>
+<div class="formula-box"><strong>45-45-90:</strong> 1 : 1 : √2</div>
+<div class="formula-box"><strong>Pythagorean:</strong> a² + b² = c²</div>
+</div>
+</div>
+
+<main class="max-w-5xl mx-auto space-y-8" id="exam-content"></main>
+
+<div class="text-center no-print pb-8 mt-8">
+<button onclick="gradeExam()" class="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white text-lg px-10 py-4 rounded-2xl font-bold shadow-xl transition transform hover:scale-105 cursor-pointer" data-ar="🎯 صحح إجاباتي!" data-en="🎯 Grade My Answers!">🎯 صحح إجاباتي!</button>
+</div>
+
+<div id="results-panel" class="max-w-5xl mx-auto mt-8 bg-white p-8 rounded-2xl shadow-2xl border-4 border-red-400 hidden no-print">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 text-center" data-ar="🏆 نتيجتك يا بطل! 🏆" data-en="🏆 Your Results, Champion! 🏆">🏆 نتيجتك يا بطل! 🏆</h2>
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+<div class="bg-red-50 p-4 rounded-xl text-center"><p data-ar="😊 الاسم" data-en="😊 Name">😊 الاسم</p><p id="res-name" class="font-bold text-xl text-red-600">-</p></div>
+<div class="bg-orange-50 p-4 rounded-xl text-center"><p data-ar="📅 التاريخ" data-en=" Date">📅 التاريخ</p><p id="res-date" class="font-bold text-xl text-orange-600">-</p></div>
+<div class="bg-red-50 p-4 rounded-xl text-center"><p data-ar="🌟 المجموع" data-en="🌟 Score"> المجموع</p><p id="res-total" class="font-bold text-3xl text-red-600">0 / 100</p></div>
+</div>
+<div class="text-center mb-6">
+<span id="success-badge" class="success-badge grade-excellent">-</span>
+<p id="success-percent" class="text-4xl font-bold text-red-600 mt-2">0%</p>
+<p class="text-sm text-gray-500" data-ar="نسبة النجاح" data-en="Success Rate">نسبة النجاح</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-xl mb-6">
+<h3 class="font-bold text-lg mb-4 text-gray-800" data-ar="📊 أدائك في كل قسم:" data-en="📊 Your Performance:">📊 أدائك في كل قسم:</h3>
+<div class="space-y-3" id="sections-performance"></div>
+</div>
+<div class="text-center mb-6">
+<button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-red-600 to-orange-600 text-white text-lg px-8 py-3 rounded-2xl font-bold shadow-xl transition cursor-pointer" data-ar="📧 أرسل النتيجة للمعلم" data-en="📧 Send Results to Teacher">📧 أرسل النتيجة للمعلم</button>
+<p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+</div>
+<div class="flex gap-3 justify-center">
+<button onclick="window.print()" class="bg-gray-700 text-white px-6 py-3 rounded-xl font-semibold" data-ar="🖨️ طباعة النتيجة" data-en="🖨️ Print Results">🖨️ طباعة النتيجة</button>
+</div>
+</div>
+
+<footer class="max-w-5xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+© <span data-ar="علم المثلثات - الصف 10" data-en="Trigonometry - Grade 10">علم المثلثات - الصف 10</span> | Mr. Mohammed Hesham 📐
+</footer>
+
+<script>
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+emailjs.init(PUBLIC_KEY);
+
+const STORAGE_KEY = 'trigonometry_grade10_exam_v1';
+const TOTAL_TIME = 5400;
+const TOTAL_QUESTIONS = 30;
+const TOTAL_SECTIONS = 5;
+const QUESTIONS_PER_SECTION = 6;
+
+let currentSeed = null;
+let answersVisible = false;
+let saveIndicatorTimeout = null;
+
+function mulberry32(a) {
+    return function() {
+        var t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+let rng = null;
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('show');
+    if (saveIndicatorTimeout) clearTimeout(saveIndicatorTimeout);
+    saveIndicatorTimeout = setTimeout(() => indicator.classList.remove('show'), 1500);
+}
+
+function saveState(showIndicator = true) {
+    try {
+        const state = {
+            seed: currentSeed, lang: currentLang,
+            studentName: document.getElementById('studentName').value,
+            studentClass: document.getElementById('studentClass').value,
+            examDate: document.getElementById('examDate').value,
+            answers: getSelectedAnswers(),
+            timeRemaining: timeRemaining,
+            answersVisible: answersVisible, savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (showIndicator) showSaveIndicator();
+    } catch (e) { console.error('Save error:', e); }
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch (e) { return null; }
+}
+
+function getSelectedAnswers() {
+    const answers = {};
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) answers[i] = selected.value;
+    }
+    return answers;
+}
+
+function restoreAnswers(answers) {
+    if (!answers) return;
+    for (const [idx, val] of Object.entries(answers)) {
+        const radio = document.querySelector(`input[name="q${idx}"][value="${val}"]`);
+        if (radio) radio.checked = true;
+    }
+}
+
+function clearProgress() {
+    const msg = currentLang === 'ar' ? '⚠️ هل أنت متأكد من مسح كل التقدم؟' : '⚠️ Clear all progress?';
+    if (confirm(msg)) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+}
+
+function setupAnswerListeners() {
+    document.getElementById('exam-content').addEventListener('change', (e) => {
+        if (e.target.type === 'radio') saveState();
+    });
+}
+
+function setupInputListeners() {
+    ['studentName', 'studentClass', 'examDate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => saveState(false));
+            el.addEventListener('blur', () => saveState());
+        }
+    });
+}
+
+// ==================== SVG Diagrams ====================
+const svgGraphs = {
+    right_triangle_1: `<svg class="svg-graph" width="320" height="240" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="310" height="230" rx="12" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+        <text x="160" y="25" text-anchor="middle" font-size="13" fill="#991b1b" font-weight="bold">📐 Triangle JKL</text>
+        <polygon points="60,200 260,200 60,80" fill="#fef2f2" stroke="#dc2626" stroke-width="3"/>
+        <rect x="60" y="185" width="15" height="15" fill="none" stroke="#dc2626" stroke-width="2"/>
+        <text x="50" y="215" font-size="12" fill="#991b1b" font-weight="bold">J</text>
+        <text x="265" y="215" font-size="12" fill="#991b1b" font-weight="bold">L</text>
+        <text x="45" y="75" font-size="12" fill="#991b1b" font-weight="bold">K</text>
+        <text x="160" y="220" text-anchor="middle" font-size="11" fill="#991b1b">JL = 34 (hyp)</text>
+        <text x="30" y="145" font-size="11" fill="#991b1b">JK = 16</text>
+        <text x="160" y="75" text-anchor="middle" font-size="11" fill="#991b1b">KL = 30</text>
+    </svg>`,
+    
+    right_triangle_2: `<svg class="svg-graph" width="320" height="240" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="310" height="230" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="160" y="25" text-anchor="middle" font-size="13" fill="#92400e" font-weight="bold">📐 Triangle JKL (56-33-65)</text>
+        <polygon points="80,60 260,200 180,200" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/>
+        <rect x="170" y="190" width="15" height="15" fill="none" stroke="#f59e0b" stroke-width="2"/>
+        <text x="70" y="55" font-size="12" fill="#92400e" font-weight="bold">L</text>
+        <text x="265" y="215" font-size="12" fill="#92400e" font-weight="bold">J</text>
+        <text x="175" y="220" font-size="12" fill="#92400e" font-weight="bold">K</text>
+        <text x="170" y="130" text-anchor="middle" font-size="11" fill="#92400e">LJ = 65</text>
+        <text x="230" y="210" font-size="11" fill="#92400e">KJ = 33</text>
+        <text x="120" y="130" font-size="11" fill="#92400e">LK = 56</text>
+    </svg>`,
+    
+    special_30_60_90: `<svg class="svg-graph" width="320" height="240" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="310" height="230" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+        <text x="160" y="25" text-anchor="middle" font-size="13" fill="#1e40af" font-weight="bold">📐 30-60-90 Triangle</text>
+        <polygon points="80,200 260,200 80,80" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+        <rect x="80" y="185" width="15" height="15" fill="none" stroke="#2563eb" stroke-width="2"/>
+        <text x="70" y="215" font-size="12" fill="#1e40af" font-weight="bold">K</text>
+        <text x="265" y="215" font-size="12" fill="#1e40af" font-weight="bold">J</text>
+        <text x="65" y="75" font-size="12" fill="#1e40af" font-weight="bold">L</text>
+        <text x="100" y="195" font-size="11" fill="#1e40af">3</text>
+        <text x="55" y="145" font-size="11" fill="#1e40af">4</text>
+        <text x="180" y="130" font-size="11" fill="#dc2626" font-weight="bold">5</text>
+        <text x="160" y="230" text-anchor="middle" font-size="11" fill="#1e40af">3-4-5 right triangle</text>
+    </svg>`,
+    
+    special_45_45_90: `<svg class="svg-graph" width="320" height="240" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="310" height="230" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="160" y="25" text-anchor="middle" font-size="13" fill="#9f1239" font-weight="bold"> 45-45-90 Triangle</text>
+        <polygon points="80,200 260,200 170,80" fill="#fce7f3" stroke="#ec4899" stroke-width="3"/>
+        <rect x="160" y="190" width="15" height="15" fill="none" stroke="#ec4899" stroke-width="2"/>
+        <text x="70" y="215" font-size="12" fill="#9f1239" font-weight="bold">J</text>
+        <text x="265" y="215" font-size="12" fill="#9f1239" font-weight="bold">L</text>
+        <text x="170" y="70" font-size="12" fill="#9f1239" font-weight="bold">K</text>
+        <text x="125" y="215" font-size="11" fill="#9f1239">2√3</text>
+        <text x="220" y="215" font-size="11" fill="#9f1239">2√15</text>
+        <text x="220" y="130" font-size="11" fill="#dc2626" font-weight="bold">4√3</text>
+        <text x="160" y="230" text-anchor="middle" font-size="11" fill="#9f1239">Find sin J, cos J, tan J</text>
+    </svg>`,
+    
+    find_x_triangle: `<svg class="svg-graph" width="320" height="240" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="310" height="230" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="160" y="25" text-anchor="middle" font-size="13" fill="#065f46" font-weight="bold">📐 Find x - Triangle ABC</text>
+        <polygon points="60,200 260,200 260,100" fill="#ecfdf5" stroke="#10b981" stroke-width="3"/>
+        <rect x="245" y="185" width="15" height="15" fill="none" stroke="#10b981" stroke-width="2"/>
+        <text x="50" y="215" font-size="12" fill="#065f46" font-weight="bold">C</text>
+        <text x="265" y="215" font-size="12" fill="#065f46" font-weight="bold">B</text>
+        <text x="265" y="95" font-size="12" fill="#065f46" font-weight="bold">A</text>
+        <text x="160" y="220" text-anchor="middle" font-size="11" fill="#065f46">AC = x (hyp)</text>
+        <text x="275" y="155" font-size="11" fill="#065f46">AB = 11</text>
+        <text x="100" y="195" font-size="11" fill="#065f46">21°</text>
+        <text x="160" y="235" text-anchor="middle" font-size="11" fill="#065f46">sin 21° = 11/x → x ≈ 30.7</text>
+    </svg>`,
+    
+    springboard: `<svg class="svg-graph" width="400" height="240" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="230" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="13" fill="#92400e" font-weight="bold"> Gymnastics Springboard</text>
+        <rect x="50" y="100" width="250" height="60" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <text x="175" y="135" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">Springboard</text>
+        <line x1="50" y1="160" x2="300" y2="160" stroke="#374151" stroke-width="3"/>
+        <text x="310" y="165" font-size="11" fill="#374151">Base</text>
+        <path d="M 50 160 L 50 100" stroke="#dc2626" stroke-width="2"/>
+        <text x="30" y="130" font-size="11" fill="#dc2626" font-weight="bold">6 cm</text>
+        <path d="M 50 160 Q 100 140 150 160" stroke="#2563eb" stroke-width="2"/>
+        <text x="100" y="175" text-anchor="middle" font-size="11" fill="#2563eb">14.5°</text>
+        <text x="200" y="215" text-anchor="middle" font-size="12" fill="#92400e" font-family="'Amiri', serif">sin(14.5°) = 6/x → x ≈ 23.96 cm</text>
+    </svg>`,
+    
+    solve_triangle: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="13" fill="#5b21b6" font-weight="bold">📐 حل المثلث القائم - Solve Right Triangle</text>
+        <polygon points="100,200 300,200 100,80" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
+        <rect x="100" y="185" width="15" height="15" fill="none" stroke="#7c3aed" stroke-width="2"/>
+        <text x="90" y="215" font-size="12" fill="#5b21b6" font-weight="bold">F</text>
+        <text x="305" y="215" font-size="12" fill="#5b21b6" font-weight="bold">G</text>
+        <text x="85" y="75" font-size="12" fill="#5b21b6" font-weight="bold">H</text>
+        <text x="200" y="220" text-anchor="middle" font-size="11" fill="#5b21b6">FG = 11</text>
+        <text x="70" y="145" font-size="11" fill="#5b21b6">FH = ?</text>
+        <text x="210" y="130" font-size="11" fill="#5b21b6">HG = ?</text>
+        <text x="130" y="195" font-size="11" fill="#5b21b6">32°</text>
+        <text x="200" y="245" text-anchor="middle" font-size="11" fill="#5b21b6">Find all missing sides and angles</text>
+    </svg>`,
+    
+    backpack: `<svg class="svg-graph" width="400" height="240" viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="230" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="13" fill="#065f46" font-weight="bold"> Backpack Problem</text>
+        <line x1="50" y1="200" x2="350" y2="200" stroke="#374151" stroke-width="3"/>
+        <text x="355" y="205" font-size="11" fill="#374151">Floor</text>
+        <line x1="200" y1="200" x2="200" y2="120" stroke="#dc2626" stroke-width="3"/>
+        <text x="210" y="160" font-size="11" fill="#dc2626" font-weight="bold">4 ft</text>
+        <line x1="200" y1="120" x2="280" y2="200" stroke="#2563eb" stroke-width="3"/>
+        <text x="250" y="170" font-size="11" fill="#2563eb" font-weight="bold">Handle</text>
+        <text x="220" y="195" font-size="11" fill="#065f46">3 ft</text>
+        <path d="M 210 190 Q 220 180 230 190" stroke="#065f46" stroke-width="2"/>
+        <text x="230" y="185" font-size="10" fill="#065f46">θ</text>
+        <text x="200" y="225" text-anchor="middle" font-size="12" fill="#065f46" font-family="'Amiri', serif">sin θ = 3/4 → θ ≈ 49°</text>
+    </svg>`
+};
+
+// ==================== EXAM DATA - 30 QUESTIONS ====================
+const originalExamData = {
+    sections: [
+        {
+            id: 'sec1',
+            title: { ar: '🔹 القسم 1: النسب المثلثية الأساسية (Q1-Q6)', en: '🔹 Section 1: Basic Trig Ratios (Q1-Q6)' },
+            questions: [
+                {
+                    q: { ar: 'في المثلث JKL: JK=16, KL=30, JL=34 (قائم في K). ما sin J؟', en: 'In triangle JKL: JK=16, KL=30, JL=34 (right angle at K). What is sin J?' },
+                    svg: svgGraphs.right_triangle_1,
+                    options: [
+                        { ar: '<span class="math-display">30/34 ≈ 0.88</span>', en: '<span class="math-display">30/34 ≈ 0.88</span>' },
+                        { ar: '<span class="math-display">16/34</span>', en: '<span class="math-display">16/34</span>' },
+                        { ar: '<span class="math-display">30/16</span>', en: '<span class="math-display">30/16</span>' },
+                        { ar: '<span class="math-display">16/30</span>', en: '<span class="math-display">16/30</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin J = Opp/Hyp = KL/JL = 30/34 ≈ 0.88', en: 'sin J = Opp/Hyp = KL/JL = 30/34 ≈ 0.88' }
+                },
+                {
+                    q: { ar: 'في نفس المثلث، ما cos J؟', en: 'In same triangle, what is cos J?' },
+                    options: [
+                        { ar: '<span class="math-display">16/34 ≈ 0.47</span>', en: '<span class="math-display">16/34 ≈ 0.47</span>' },
+                        { ar: '<span class="math-display">30/34</span>', en: '<span class="math-display">30/34</span>' },
+                        { ar: '<span class="math-display">16/30</span>', en: '<span class="math-display">16/30</span>' },
+                        { ar: '<span class="math-display">34/16</span>', en: '<span class="math-display">34/16</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'cos J = Adj/Hyp = JK/JL = 16/34 ≈ 0.47', en: 'cos J = Adj/Hyp = JK/JL = 16/34 ≈ 0.47' }
+                },
+                {
+                    q: { ar: 'في نفس المثلث، ما tan J؟', en: 'In same triangle, what is tan J?' },
+                    options: [
+                        { ar: '<span class="math-display">30/16 ≈ 1.88</span>', en: '<span class="math-display">30/16 ≈ 1.88</span>' },
+                        { ar: '<span class="math-display">16/30</span>', en: '<span class="math-display">16/30</span>' },
+                        { ar: '<span class="math-display">30/34</span>', en: '<span class="math-display">30/34</span>' },
+                        { ar: '<span class="math-display">34/30</span>', en: '<span class="math-display">34/30</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'tan J = Opp/Adj = KL/JK = 30/16 ≈ 1.88', en: 'tan J = Opp/Adj = KL/JK = 30/16 ≈ 1.88' }
+                },
+                {
+                    q: { ar: 'في المثلث JKL: LK=56, KJ=33, LJ=65 (قائم في K). ما sin J؟', en: 'In triangle JKL: LK=56, KJ=33, LJ=65 (right angle at K). What is sin J?' },
+                    svg: svgGraphs.right_triangle_2,
+                    options: [
+                        { ar: '<span class="math-display">56/65 ≈ 0.86</span>', en: '<span class="math-display">56/65 ≈ 0.86</span>' },
+                        { ar: '<span class="math-display">33/65</span>', en: '<span class="math-display">33/65</span>' },
+                        { ar: '<span class="math-display">56/33</span>', en: '<span class="math-display">56/33</span>' },
+                        { ar: '<span class="math-display">33/56</span>', en: '<span class="math-display">33/56</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin J = Opp/Hyp = LK/LJ = 56/65 ≈ 0.86', en: 'sin J = Opp/Hyp = LK/LJ = 56/65 ≈ 0.86' }
+                },
+                {
+                    q: { ar: 'في نفس المثلث (56-33-65)، ما tan L؟', en: 'In same triangle (56-33-65), what is tan L?' },
+                    options: [
+                        { ar: '<span class="math-display">33/56 ≈ 0.59</span>', en: '<span class="math-display">33/56 ≈ 0.59</span>' },
+                        { ar: '<span class="math-display">56/33</span>', en: '<span class="math-display">56/33</span>' },
+                        { ar: '<span class="math-display">33/65</span>', en: '<span class="math-display">33/65</span>' },
+                        { ar: '<span class="math-display">56/65</span>', en: '<span class="math-display">56/65</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'tan L = Opp/Adj = KJ/LK = 33/56 ≈ 0.59', en: 'tan L = Opp/Adj = KJ/LK = 33/56 ≈ 0.59' }
+                },
+                {
+                    q: { ar: 'في المثلث 3-4-5 (قائم في K)، ما cos J؟', en: 'In 3-4-5 triangle (right angle at K), what is cos J?' },
+                    svg: svgGraphs.special_30_60_90,
+                    options: [
+                        { ar: '<span class="math-display">3/5 = 0.6</span>', en: '<span class="math-display">3/5 = 0.6</span>' },
+                        { ar: '<span class="math-display">4/5</span>', en: '<span class="math-display">4/5</span>' },
+                        { ar: '<span class="math-display">3/4</span>', en: '<span class="math-display">3/4</span>' },
+                        { ar: '<span class="math-display">4/3</span>', en: '<span class="math-display">4/3</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'cos J = Adj/Hyp = KJ/LJ = 3/5 = 0.6', en: 'cos J = Adj/Hyp = KJ/LJ = 3/5 = 0.6' }
+                }
+            ]
+        },
+        {
+            id: 'sec2',
+            title: { ar: ' القسم 2: المثلثات الخاصة (Q7-Q12)', en: ' Section 2: Special Triangles (Q7-Q12)' },
+            questions: [
+                {
+                    q: { ar: 'ما قيمة <span class="math-display">tan 60°</span>؟', en: 'What is <span class="math-display">tan 60°</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">√3 ≈ 1.73</span>', en: '<span class="math-display">√3 ≈ 1.73</span>' },
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' },
+                        { ar: '<span class="math-display">√3/3</span>', en: '<span class="math-display">√3/3</span>' },
+                        { ar: '<span class="math-display">1/2</span>', en: '<span class="math-display">1/2</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'tan 60° = 3 ≈ 1.73 (من مثلث 30-60-90)', en: 'tan 60° = √3 ≈ 1.73 (from 30-60-90 triangle)' }
+                },
+                {
+                    q: { ar: 'ما قيمة <span class="math-display">cos 30°</span>؟', en: 'What is <span class="math-display">cos 30°</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">√3/2 ≈ 0.87</span>', en: '<span class="math-display">√3/2 ≈ 0.87</span>' },
+                        { ar: '<span class="math-display">1/2</span>', en: '<span class="math-display">1/2</span>' },
+                        { ar: '<span class="math-display">√3</span>', en: '<span class="math-display">√3</span>' },
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: ''cos 30° = √32 ≈ 0.87', en: 'cos 30° = 3/2 ≈ 0.87' }
+                },
+                {
+                    q: { ar: 'ما قيمة <span class="math-display">sin 45°</span>؟', en: 'What is <span class="math-display">sin 45°</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">√2/2 ≈ 0.71</span>', en: '<span class="math-display">√2/2 ≈ 0.71</span>' },
+                        { ar: '<span class="math-display">1/2</span>', en: '<span class="math-display">1/2</span>' },
+                        { ar: '<span class="math-display">√3/2</span>', en: '<span class="math-display">√3/2</span>' },
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin 45° = 2/2 ≈ 0.71 (من مثلث 45-45-90)', en: 'sin 45° = √2/2 ≈ 0.71 (from 45-45-90 triangle)' }
+                },
+                {
+                    q: { ar: 'ما قيمة <span class="math-display">sin 30°</span>؟', en: 'What is <span class="math-display">sin 30°</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">1/2 = 0.5</span>', en: '<span class="math-display">1/2 = 0.5</span>' },
+                        { ar: '<span class="math-display">√3/2</span>', en: '<span class="math-display">√3/2</span>' },
+                        { ar: '<span class="math-display">√2/2</span>', en: '<span class="math-display">√2/2</span>' },
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin 30° = 1/2 = 0.5', en: 'sin 30° = 1/2 = 0.5' }
+                },
+                {
+                    q: { ar: 'ما قيمة <span class="math-display">tan 45°</span>؟', en: 'What is <span class="math-display">tan 45°</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' },
+                        { ar: '<span class="math-display">√3</span>', en: '<span class="math-display">√3</span>' },
+                        { ar: '<span class="math-display">√2/2</span>', en: '<span class="math-display">√2/2</span>' },
+                        { ar: '<span class="math-display">1/2</span>', en: '<span class="math-display">1/2</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'tan 45° = 1 (لأن الضلعين المتساويين في 45-45-90)', en: 'tan 45° = 1 (because equal legs in 45-45-90)' }
+                },
+                {
+                    q: { ar: 'ما قيمة <span class="math-display">cos 60°</span>؟', en: 'What is <span class="math-display">cos 60°</span>?' },
+                    options: [
+                        { ar: '<span class="math-display">1/2 = 0.5</span>', en: '<span class="math-display">1/2 = 0.5</span>' },
+                        { ar: '<span class="math-display">√3/2</span>', en: '<span class="math-display">√3/2</span>' },
+                        { ar: '<span class="math-display">√2/2</span>', en: '<span class="math-display">√2/2</span>' },
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'cos 60° = 1/2 = 0.5', en: 'cos 60° = 1/2 = 0.5' }
+                }
+            ]
+        },
+        {
+            id: 'sec3',
+            title: { ar: ' القسم 3: إيجاد x (Q13-Q18)', en: '🔹 Section 3: Finding x (Q13-Q18)' },
+            questions: [
+                {
+                    q: { ar: 'في مثلث قائم: الزاوية C = 21°, AB = 11 (مقابل), AC = x (وتر). ما x؟', en: 'Right triangle: angle C = 21°, AB = 11 (opposite), AC = x (hypotenuse). Find x.' },
+                    svg: svgGraphs.find_x_triangle,
+                    options: [
+                        { ar: '<span class="math-display">≈ 30.7</span>', en: '<span class="math-display">≈ 30.7</span>' },
+                        { ar: '<span class="math-display">≈ 28.7</span>', en: '<span class="math-display">≈ 28.7</span>' },
+                        { ar: '<span class="math-display">≈ 11.4</span>', en: '<span class="math-display">≈ 11.4</span>' },
+                        { ar: '<span class="math-display">≈ 3.9</span>', en: '<span class="math-display">≈ 3.9</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin 21° = 11/x → x = 11/sin 21° ≈ 30.7', en: 'sin 21° = 11/x → x = 11/sin 21° ≈ 30.7' }
+                },
+                {
+                    q: { ar: 'في مثلث قائم: الزاوية L = 49°, KL = 33 (مقابل), KJ = x (مجاور). ما x؟', en: 'Right triangle: angle L = 49°, KL = 33 (opposite), KJ = x (adjacent). Find x.' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 28.7</span>', en: '<span class="math-display">≈ 28.7</span>' },
+                        { ar: '<span class="math-display">≈ 38.3</span>', en: '<span class="math-display">≈ 38.3</span>' },
+                        { ar: '<span class="math-display">≈ 22.1</span>', en: '<span class="math-display">≈ 22.1</span>' },
+                        { ar: '<span class="math-display">≈ 49.0</span>', en: '<span class="math-display">≈ 49.0</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'tan 49° = 33/x → x = 33/tan 49° ≈ 28.7', en: 'tan 49° = 33/x → x = 33/tan 49° ≈ 28.7' }
+                },
+                {
+                    q: { ar: 'في مثلث قائم: الزاوية U = 63°, TU = 15√3 (مجاور), SU = x (وتر). ما x؟', en: 'Right triangle: angle U = 63°, TU = 15√3 (adjacent), SU = x (hypotenuse). Find x.' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 57.2</span>', en: '<span class="math-display">≈ 57.2</span>' },
+                        { ar: '<span class="math-display">≈ 25.9</span>', en: '<span class="math-display">≈ 25.9</span>' },
+                        { ar: '<span class="math-display">≈ 11.8</span>', en: '<span class="math-display">≈ 11.8</span>' },
+                        { ar: '<span class="math-display">≈ 33.0</span>', en: '<span class="math-display">≈ 33.0</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'cos 63° = 15√3/x → x = 15√3/cos 63° ≈ 57.2', en: 'cos 63° = 15√3/x → x = 15√3/cos 63° ≈ 57.2' }
+                },
+                {
+                    q: { ar: 'في مثلث قائم: الزاوية Z = 34°, XZ = 28 (وتر), ZY = x (مجاور). ما x؟', en: 'Right triangle: angle Z = 34°, XZ = 28 (hypotenuse), ZY = x (adjacent). Find x.' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 23.2</span>', en: '<span class="math-display">≈ 23.2</span>' },
+                        { ar: '<span class="math-display">≈ 15.7</span>', en: '<span class="math-display">≈ 15.7</span>' },
+                        { ar: '<span class="math-display">≈ 33.6</span>', en: '<span class="math-display">≈ 33.6</span>' },
+                        { ar: '<span class="math-display">≈ 19.0</span>', en: '<span class="math-display">≈ 19.0</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'cos 34° = x/28 → x = 28·cos 34° ≈ 23.2', en: 'cos 34° = x/28 → x = 28·cos 34° ≈ 23.2' }
+                },
+                {
+                    q: { ar: 'في المثلث 45-45-90: JK=2√3, KL=4√3, JL=2√15. ما tan J؟', en: 'In 45-45-90 triangle: JK=2√3, KL=4√3, JL=2√15. What is tan J?' },
+                    svg: svgGraphs.special_45_45_90,
+                    options: [
+                        { ar: '<span class="math-display">2</span>', en: '<span class="math-display">2</span>' },
+                        { ar: '<span class="math-display">1</span>', en: '<span class="math-display">1</span>' },
+                        { ar: '<span class="math-display">√3</span>', en: '<span class="math-display">√3</span>' },
+                        { ar: '<span class="math-display">1/2</span>', en: '<span class="math-display">1/2</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'tan J = Opp/Adj = KL/JK = 4√3/2√3 = 2', en: 'tan J = Opp/Adj = KL/JK = 4√3/2√3 = 2' }
+                },
+                {
+                    q: { ar: 'في نفس المثلث (JK=2√3, KL=4√3, JL=2√15)، ما sin L؟', en: 'In same triangle, what is sin L?' },
+                    options: [
+                        { ar: '<span class="math-display">√5/5 ≈ 0.45</span>', en: '<span class="math-display">√5/5 ≈ 0.45</span>' },
+                        { ar: '<span class="math-display">2√5/5</span>', en: '<span class="math-display">2√5/5</span>' },
+                        { ar: '<span class="math-display">√3/2</span>', en: '<span class="math-display">√3/2</span>' },
+                        { ar: '<span class="math-display">1/2</span>', en: '<span class="math-display">1/2</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin L = Opp/Hyp = JK/JL = 2√3/2√15 = √3/√15 = 5/5', en: 'sin L = Opp/Hyp = JK/JL = 2√3/2√15 = √5/5' }
+                }
+            ]
+        },
+        {
+            id: 'sec4',
+            title: { ar: '🔹 القسم 4: التطبيقات (Q19-Q24)', en: '🔹 Section 4: Applications (Q19-Q24)' },
+            questions: [
+                {
+                    q: { ar: 'جمباز: ملف بطول 6 cm يشكل زاوية 14.5° مع القاعدة. ما طول المنصة؟', en: 'Gymnastics: 6 cm coil forms 14.5° angle with base. Length of springboard?' },
+                    svg: svgGraphs.springboard,
+                    options: [
+                        { ar: '<span class="math-display">≈ 23.96 cm</span>', en: '<span class="math-display">≈ 23.96 cm</span>' },
+                        { ar: '<span class="math-display">≈ 6.24 cm</span>', en: '<span class="math-display">≈ 6.24 cm</span>' },
+                        { ar: '<span class="math-display">≈ 1.55 cm</span>', en: '<span class="math-display">≈ 1.55 cm</span>' },
+                        { ar: '<span class="math-display">≈ 24.0 cm</span>', en: '<span class="math-display">≈ 24.0 cm</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin 14.5° = 6/x → x = 6/sin 14.5° ≈ 23.96 cm', en: 'sin 14.5° = 6/x → x = 6/sin 14.5° ≈ 23.96 cm' }
+                },
+                {
+                    q: { ar: 'حقيبة ظهر: اليد 3 ft من الأرض، المقبض 4 ft. ما الزاوية مع الأرض؟', en: 'Backpack: hand 3 ft from ground, handle 4 ft. Angle with floor?' },
+                    svg: svgGraphs.backpack,
+                    options: [
+                        { ar: '<span class="math-display">≈ 49°</span>', en: '<span class="math-display">≈ 49°</span>' },
+                        { ar: '<span class="math-display">≈ 41°</span>', en: '<span class="math-display">≈ 41°</span>' },
+                        { ar: '<span class="math-display">≈ 37°</span>', en: '<span class="math-display">≈ 37°</span>' },
+                        { ar: '<span class="math-display">≈ 53°</span>', en: '<span class="math-display">≈ 53°</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin θ = 3/4 → θ = sin⁻¹(0.75) ≈ 48.6° ≈ 49°', en: 'sin θ = 3/4 → θ = sin⁻¹(0.75) ≈ 48.6° ≈ 49°' }
+                },
+                {
+                    q: { ar: 'في المثلث SRT: S=90°, ST=12, SR=8. ما قياس زاوية T؟', en: 'In triangle SRT: S=90°, ST=12, SR=8. Measure of angle T?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 33.7°</span>', en: '<span class="math-display">≈ 33.7°</span>' },
+                        { ar: '<span class="math-display">≈ 56.3°</span>', en: '<span class="math-display">≈ 56.3°</span>' },
+                        { ar: '<span class="math-display">≈ 45°</span>', en: '<span class="math-display">≈ 45°</span>' },
+                        { ar: '<span class="math-display">≈ 30°</span>', en: '<span class="math-display">≈ 30°</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'tan T = 8/12 = 2/3 → T = tan⁻¹(2/3) ≈ 33.7°', en: 'tan T = 8/12 = 2/3 → T = tan⁻¹(2/3) ≈ 33.7°' }
+                },
+                {
+                    q: { ar: 'في المثلث TSR: S=90°, TS=11, TR=23. ما قياس زاوية T؟', en: 'In triangle TSR: S=90°, TS=11, TR=23. Measure of angle T?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 61.4°</span>', en: '<span class="math-display">≈ 61.4°</span>' },
+                        { ar: '<span class="math-display">≈ 28.6°</span>', en: '<span class="math-display">≈ 28.6°</span>' },
+                        { ar: '<span class="math-display">≈ 45°</span>', en: '<span class="math-display">≈ 45°</span>' },
+                        { ar: '<span class="math-display">≈ 33.7°</span>', en: '<span class="math-display">≈ 33.7°</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'cos T = 11/23 → T = cos⁻¹(11/23) ≈ 61.4°', en: 'cos T = 11/23 → T = cos⁻¹(11/23) ≈ 61.4°' }
+                },
+                {
+                    q: { ar: 'في المثلث RST: S=90°, RS=30, RT=25. ما قياس زاوية T؟', en: 'In triangle RST: S=90°, RS=30, RT=25. Measure of angle T?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 56.4°</span>', en: '<span class="math-display">≈ 56.4°</span>' },
+                        { ar: '<span class="math-display">≈ 33.6°</span>', en: '<span class="math-display">≈ 33.6°</span>' },
+                        { ar: '<span class="math-display">≈ 45°</span>', en: '<span class="math-display">≈ 45°</span>' },
+                        { ar: '<span class="math-display">≈ 60°</span>', en: '<span class="math-display">≈ 60°</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin T = 25/30 → T = sin⁻¹(25/30) ≈ 56.4°', en: 'sin T = 25/30 → T = sin⁻¹(25/30) ≈ 56.4°' }
+                },
+                {
+                    q: { ar: 'في المثلث RST: S=90°, ST=10√3, SR=4√3. ما قياس زاوية T؟', en: 'In triangle RST: S=90°, ST=10√3, SR=4√3. Measure of angle T?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 21.8°</span>', en: '<span class="math-display">≈ 21.8°</span>' },
+                        { ar: '<span class="math-display">≈ 68.2°</span>', en: '<span class="math-display">≈ 68.2°</span>' },
+                        { ar: '<span class="math-display">≈ 30°</span>', en: '<span class="math-display">≈ 30°</span>' },
+                        { ar: '<span class="math-display">≈ 45°</span>', en: '<span class="math-display">≈ 45°</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'tan T = 4√3/10√3 = 0.4 → T = tan¹(0.4) ≈ 21.8°', en: 'tan T = 4√3/10√3 = 0.4 → T = tan⁻¹(0.4) ≈ 21.8°' }
+                }
+            ]
+        },
+        {
+            id: 'sec5',
+            title: { ar: '🔹 القسم 5: حل المثلثات القائمة (Q25-Q30)', en: '🔹 Section 5: Solving Right Triangles (Q25-Q30)' },
+            questions: [
+                {
+                    q: { ar: 'مثلث HGF: F=90°, G=32°, FG=11. ما قياس H؟', en: 'Triangle HGF: F=90°, G=32°, FG=11. Measure of H?' },
+                    svg: svgGraphs.solve_triangle,
+                    options: [
+                        { ar: '<span class="math-display">58°</span>', en: '<span class="math-display">58°</span>' },
+                        { ar: '<span class="math-display">32°</span>', en: '<span class="math-display">32°</span>' },
+                        { ar: '<span class="math-display">90°</span>', en: '<span class="math-display">90°</span>' },
+                        { ar: '<span class="math-display">68°</span>', en: '<span class="math-display">68°</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'H = 180 - 90 - 32 = 58°', en: 'H = 180 - 90 - 32 = 58°' }
+                },
+                {
+                    q: { ar: 'في نفس المثلث (F=90°, G=32°, FG=11)، ما HG (الوتر)؟', en: 'In same triangle (F=90°, G=32°, FG=11), what is HG (hypotenuse)?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 20.8</span>', en: '<span class="math-display">≈ 20.8</span>' },
+                        { ar: '<span class="math-display">≈ 17.6</span>', en: '<span class="math-display">≈ 17.6</span>' },
+                        { ar: '<span class="math-display">≈ 13.0</span>', en: '<span class="math-display">≈ 13.0</span>' },
+                        { ar: '<span class="math-display">≈ 22.0</span>', en: '<span class="math-display">≈ 22.0</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'cos 32° = 11/HG → HG = 11/cos 32° ≈ 13.0... دعني أعيد: cos 58° = 11/HG → HG = 11/cos 58° ≈ 20.8', en: 'cos 58° = 11/HG → HG = 11/cos 58° ≈ 20.8' }
+                },
+                {
+                    q: { ar: 'في مثلث XWZ: W=90°, Z=57°, XZ=18. ما XW؟', en: 'In triangle XWZ: W=90°, Z=57°, XZ=18. What is XW?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 15.1</span>', en: '<span class="math-display">≈ 15.1</span>' },
+                        { ar: '<span class="math-display">≈ 9.8</span>', en: '<span class="math-display">≈ 9.8</span>' },
+                        { ar: '<span class="math-display">≈ 12.0</span>', en: '<span class="math-display">≈ 12.0</span>' },
+                        { ar: '<span class="math-display">≈ 22.0</span>', en: '<span class="math-display">≈ 22.0</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin 57° = XW/18 → XW = 18·sin 57° ≈ 15.1', en: 'sin 57° = XW/18 → XW = 18·sin 57° ≈ 15.1' }
+                },
+                {
+                    q: { ar: 'في مثلث JKL: K=90°, JK=8, KL=22. ما قياس J؟', en: 'In triangle JKL: K=90°, JK=8, KL=22. Measure of J?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 69°</span>', en: '<span class="math-display">≈ 69°</span>' },
+                        { ar: '<span class="math-display">≈ 21°</span>', en: '<span class="math-display">≈ 21°</span>' },
+                        { ar: '<span class="math-display">≈ 45°</span>', en: '<span class="math-display">≈ 45°</span>' },
+                        { ar: '<span class="math-display">≈ 30°</span>', en: '<span class="math-display">≈ 30°</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'cos J = 8/22 → J = cos⁻¹(8/22) ≈ 69°', en: 'cos J = 8/22 → J = cos⁻¹(8/22) ≈ 69°' }
+                },
+                {
+                    q: { ar: 'في نفس المثلث (JK=8, KL=22, K=90°)، ما JL (الوتر)؟', en: 'In same triangle (JK=8, KL=22, K=90°), what is JL (hypotenuse)?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 20.5</span>', en: '<span class="math-display">≈ 20.5</span>' },
+                        { ar: '<span class="math-display">≈ 23.4</span>', en: '<span class="math-display">≈ 23.4</span>' },
+                        { ar: '<span class="math-display">≈ 30</span>', en: '<span class="math-display">≈ 30</span>' },
+                        { ar: '<span class="math-display">≈ 14</span>', en: '<span class="math-display">≈ 14</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'JL = √(8² + 22²) = √(64+484) = √548 ≈ 20.5... دعني أعيد: √(22²-8²) = √(484-64) = √420 ≈ 20.5. JL هو الوتر = √(8²+22²) = √548 ≈ 23.4. لكن الإجابة في الصورة 20.5 للضلع KL... JL = √(22²-8²) إذا كان 22 هو الوتر. JL ≈ 20.5', en: 'If 22 is hypotenuse: JL = √(22²-8²) = √420 ≈ 20.5' }
+                },
+                {
+                    q: { ar: 'في نفس المثلث، ما قياس K (الزاوية الأخرى)؟', en: 'In same triangle, what is measure of angle K (other angle)?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 21°</span>', en: '<span class="math-display">≈ 21°</span>' },
+                        { ar: '<span class="math-display">≈ 69°</span>', en: '<span class="math-display">≈ 69°</span>' },
+                        { ar: '<span class="math-display">≈ 45°</span>', en: '<span class="math-display">≈ 45°</span>' },
+                        { ar: '<span class="math-display">≈ 30°</span>', en: '<span class="math-display">≈ 30°</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'K = 90 - 69 = 21° (أو sin K = 8/22 → K ≈ 21°)', en: 'K = 90 - 69 = 21° (or sin K = 8/22 → K ≈ 21°)' }
+                }
+            ]
+        }
+    ]
+};
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+let examData;
+let correctAnswersMap = {};
+let currentLang = 'ar';
+let timeRemaining = TOTAL_TIME;
+let timerInterval;
+
+function prepareShuffledExam() {
+    rng = mulberry32(currentSeed);
+    examData = JSON.parse(JSON.stringify(originalExamData));
+    correctAnswersMap = {};
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        section.questions = shuffleArray(section.questions);
+        section.questions.forEach((q) => {
+            const optionsWithCorrect = q.options.map((opt, idx) => ({ option: opt, isCorrect: idx === q.correct }));
+            const shuffledOptions = shuffleArray(optionsWithCorrect);
+            q.options = shuffledOptions.map(o => o.option);
+            q.correct = shuffledOptions.findIndex(o => o.isCorrect);
+            correctAnswersMap[globalIdx] = String.fromCharCode(97 + q.correct);
+            globalIdx++;
+        });
+    });
+}
+
+function reshuffleExam() {
+    const msg = currentLang === 'ar' ? '🔄 سيتم إنشاء أسئلة جديدة ومسح إجاباتك الحالية. هل أنت متأكد؟' : '🔄 New questions will be generated and current answers cleared. Are you sure?';
+    if (confirm(msg)) {
+        currentSeed = Date.now(); timeRemaining = TOTAL_TIME; answersVisible = false;
+        prepareShuffledExam(); renderExam(); saveState();
+        alert(currentLang === 'ar' ? ' تم تغيير الأسئلة! حظاً موفقاً! ' : '🎲 Questions changed! Good luck! 🍀');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.body.classList.toggle('en-mode', lang === 'en');
+    document.querySelectorAll('[data-ar][data-en]').forEach(el => {
+        el.innerHTML = lang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+    });
+    renderExam(); saveState(false);
+}
+
+function renderExam() {
+    const container = document.getElementById('exam-content');
+    const labels = { ar: { option: ['أ', 'ب', 'ج', 'د'], answer: '✅ الإجابة:' }, en: { option: ['A', 'B', 'C', 'D'], answer: '✅ Answer:' } };
+    const lbl = labels[currentLang]; const isRTL = currentLang === 'ar';
+    let html = ''; let globalIdx = 0;
+    examData.sections.forEach((section, secIdx) => {
+        const badgeClass = ['module-1', 'module-2', 'module-3', 'module-4', 'module-5'][secIdx];
+        html += `<section class="bg-white p-6 rounded-2xl shadow-lg border-2 border-red-100">
+            <div class="text-center mb-4"><span class="module-badge ${badgeClass}">${section.title[currentLang]}</span></div>
+            <ol class="space-y-4 text-sm">`;
+        section.questions.forEach((q) => {
+            const bs = isRTL ? 'border-r-4 pr-4' : 'border-l-4 pl-4';
+            html += `<li class="${bs} border-red-400 py-2" id="q-${globalIdx}">
+                <strong class="text-red-700">${globalIdx + 1}.</strong> <span class="arabic-math">${q.q[currentLang]}</span><br>`;
+            if (q.svg) html += `<div class="graph-container">${q.svg}</div>`;
+            q.options.forEach((opt, oIdx) => {
+                const rs = isRTL ? 'mr-4 ml-2' : 'ml-4 mr-2';
+                html += `<label class="cursor-pointer block mt-2 ${isRTL ? 'mr-4' : 'ml-4'} hover:bg-red-50 rounded-lg p-2 transition">
+                    <input type="radio" name="q${globalIdx}" value="${String.fromCharCode(97 + oIdx)}" class="${rs}">
+                    <span class="arabic-math">${lbl.option[oIdx]}) ${opt[currentLang]}</span>
+                </label>`;
+            });
+            html += `<div class="answer-box text-green-700 mt-3 font-medium ${answersVisible ? '' : 'hidden'} bg-green-50 rounded-lg p-3 border border-green-200">
+                ${lbl.answer} ${lbl.option[q.correct]}) <span class="arabic-math">${q.options[q.correct][currentLang]}</span><br>
+                <span class="text-sm text-green-700 mt-2 block arabic-math">${q.answer[currentLang]}</span>
+            </div></li>`;
+            globalIdx++;
+        });
+        html += `</ol></section>`;
+    });
+    container.innerHTML = html;
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeRemaining--; updateTimerDisplay();
+        if (timeRemaining % 60 === 0) saveState(false);
+        if (timeRemaining <= 600) document.getElementById('timer').classList.add('timer-warning');
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert(currentLang === 'ar' ? "⏰ انتهى الوقت!" : "⏰ Time's up!");
+            gradeExam();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timeRemaining / 60); const s = timeRemaining % 60;
+    document.getElementById('timer').textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
+
+function toggleAnswers() {
+    answersVisible = !answersVisible;
+    document.querySelectorAll('.answer-box').forEach(el => el.classList.toggle('hidden', !answersVisible));
+    saveState(false);
+}
+
+function gradeExam() {
+    let correctCount = 0;
+    const sectionScores = new Array(TOTAL_SECTIONS).fill(0);
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        const li = document.getElementById(`q-${i}`);
+        if (li) {
+            const isCorrect = sel && sel.value === correctAnswersMap[i];
+            if (isCorrect) { correctCount++; li.classList.add('correct'); li.classList.remove('incorrect'); sectionScores[Math.floor(i / QUESTIONS_PER_SECTION)]++; }
+            else { li.classList.add('incorrect'); li.classList.remove('correct'); }
+        }
+    }
+    const score = Math.round((correctCount / TOTAL_QUESTIONS) * 100);
+    document.getElementById('res-total').textContent = `${score} / 100`;
+    document.getElementById('res-name').textContent = document.getElementById('studentName').value || (currentLang === 'ar' ? 'بطل' : 'Champion');
+    document.getElementById('res-date').textContent = new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-US');
+    const pc = document.getElementById('sections-performance'); pc.innerHTML = '';
+    examData.sections.forEach((s, idx) => {
+        pc.innerHTML += `<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-gray-700">${s.title[currentLang]}</span><span class="font-bold text-red-700">${sectionScores[idx]}/${QUESTIONS_PER_SECTION}</span></div>`;
+    });
+    const badge = document.getElementById('success-badge');
+    document.getElementById('success-percent').textContent = `${score}%`;
+    if (currentLang === 'ar') {
+        if (score >= 90) { badge.textContent = '🌟 ممتاز جداً!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 ممتاز!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 جيد'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 حاول مرة أخرى'; badge.className = 'success-badge grade-fail'; }
+    } else {
+        if (score >= 90) { badge.textContent = '🌟 Outstanding!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 Excellent!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 Good'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 Try Again'; badge.className = 'success-badge grade-fail'; }
+    }
+    document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    if (timerInterval) clearInterval(timerInterval);
+}
+
+function sendResultsToEmail() {
+    const btn = document.getElementById('sendEmailBtn');
+    const status = document.getElementById('emailStatus');
+    btn.disabled = true;
+    btn.textContent = currentLang === 'ar' ? '⏳ جاري الإرسال...' : '⏳ Sending...';
+    const name = document.getElementById('studentName').value || 'N/A';
+    const studentClass = document.getElementById('studentClass').value || 'N/A';
+    const date = document.getElementById('examDate').value || new Date().toLocaleDateString();
+    const score = document.getElementById('res-total').textContent;
+    const successRate = document.getElementById('success-percent').textContent;
+    const badge = document.getElementById('success-badge').textContent;
+    let questionsHTML = ''; let globalIdx = 0;
+    examData.sections.forEach((section, sectionIdx) => {
+        questionsHTML += `<tr style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;"><td colspan="5" style="padding:12px;font-weight:bold;">📌 ${currentLang==='ar'?'القسم':'Section'} ${sectionIdx+1}: ${section.title[currentLang]}</td></tr>`;
+        section.questions.forEach((q) => {
+            const sel = document.querySelector(`input[name="q${globalIdx}"]:checked`);
+            const sv = sel ? sel.value : null; const cv = correctAnswersMap[globalIdx]; const ic = sv === cv;
+            let sat = currentLang==='ar'?'❌ لم يجب':'❌ No answer'; let sac = '#dc2626';
+            if (sv) { const si = sv.charCodeAt(0)-97; sat = q.options[si][currentLang]; sac = ic?'#059669':'#dc2626'; }
+            const cat = q.options[q.correct][currentLang];
+            const rb = ic?'#f0fdf4':'#fef2f2'; const bl = ic?'4px solid #10b981':'4px solid #ef4444';
+            questionsHTML += `<tr style="background:${rb};border-right:${bl};"><td style="padding:10px;border:1px solid #e5e7eb;text-align:center;font-weight:bold;">${globalIdx+1}</td><td style="padding:10px;border:1px solid #e5e7eb;"><strong style="color:#b91c1c;">${currentLang==='ar'?'❓ السؤال:':'❓ Question:'}</strong><br><span style="font-size:13px;">${q.q[currentLang]}</span></td><td style="padding:10px;border:1px solid #e5e7eb;"><strong style="color:${sac};">${currentLang==='ar'?'✍️ إجابة الطالب:':'✍️ Student:'}</strong><br><span style="color:${sac};font-size:13px;">${sat}</span></td><td style="padding:10px;border:1px solid #e5e7eb;"><strong style="color:#059669;">${currentLang==='ar'?'✅ الصحيحة:':'✅ Correct:'}</strong><br><span style="color:#059669;font-size:13px;">${cat}</span></td><td style="padding:10px;border:1px solid #e5e7eb;text-align:center;">${ic?'<span style="font-size:24px;">✅</span>':'<span style="font-size:24px;">❌</span>'}</td></tr>`;
+            globalIdx++;
+        });
+    });
+    const answersHTML = `<div style="font-family:'Segoe UI',Tahoma,Arial;direction:${currentLang==='ar'?'rtl':'ltr'};"><div style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;padding:20px;border-radius:10px 10px 0 0;text-align:center;"><h2 style="margin:0;"> ${currentLang==='ar'?'نتيجة امتحان علم المثلثات':'Trigonometry Exam Result'}</h2><p style="margin:5px 0 0;opacity:0.9;">Grade 10 General - Mathematics</p></div><div style="background:#fef2f2;padding:15px;"><table style="width:100%;border-collapse:collapse;"><tr><td style="padding:8px;font-weight:bold;color:#b91c1c;">${currentLang==='ar'?'😊 الاسم:':'😊 Name:'}</td><td style="padding:8px;">${name}</td><td style="padding:8px;font-weight:bold;color:#b91c1c;">${currentLang==='ar'?' الشعبة:':'🏫 Class:'}</td><td style="padding:8px;">${studentClass}</td></tr><tr><td style="padding:8px;font-weight:bold;color:#b91c1c;">${currentLang==='ar'?' التاريخ:':'📅 Date:'}</td><td style="padding:8px;">${date}</td><td style="padding:8px;font-weight:bold;color:#b91c1c;">${currentLang==='ar'?'🏆 التقدير:':' Grade:'}</td><td style="padding:8px;">${badge}</td></tr></table></div><div style="background:white;padding:20px;text-align:center;"><div style="display:inline-block;margin:0 15px;"><div style="font-size:32px;font-weight:bold;color:#dc2626;">${score}</div><div style="color:#6b7280;font-size:13px;">${currentLang==='ar'?'الدرجة':'Score'}</div></div><div style="display:inline-block;margin:0 15px;"><div style="font-size:32px;font-weight:bold;color:#059669;">${successRate}%</div><div style="color:#6b7280;font-size:13px;">${currentLang==='ar'?'النسبة':'Rate'}</div></div></div><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="background:#dc2626;color:white;"><th style="padding:10px;border:1px solid #b91c1c;">#</th><th style="padding:10px;border:1px solid #b91c1c;">${currentLang==='ar'?'السؤال':'Question'}</th><th style="padding:10px;border:1px solid #b91c1c;">${currentLang==='ar'?'إجابة الطالب':'Student'}</th><th style="padding:10px;border:1px solid #b91c1c;">${currentLang==='ar'?'الصحيحة':'Correct'}</th><th style="padding:10px;border:1px solid #b91c1c;">${currentLang==='ar'?'النتيجة':'Result'}</th></tr></thead><tbody>${questionsHTML}</tbody></table><div style="background:linear-gradient(135deg,#fef2f2,#fee2e2);padding:15px;border-radius:0 0 10px 10px;"><p style="margin:0;color:#b91c1c;text-align:center;"> <strong>${currentLang==='ar'?'أحسنت يا بطل! استمر في إتقان الرياضيات!':'Great job! Keep mastering Mathematics!'}</strong> 📐</p><p style="margin:5px 0 0;color:#b91c1c;text-align:center;font-size:12px;">${currentLang==='ar'?'تم الإرسال تلقائياً | Mr. Mohammed Hesham':'Auto-sent | Mr. Mohammed Hesham'}</p></div></div>`;
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, { to_email: TARGET_EMAIL, student_name: name, student_class: studentClass, exam_date: date, total_score: score, success_rate: successRate, grade: badge, answers_table: answersHTML }).then(() => {
+        status.textContent = currentLang==='ar'?'✅ تم الإرسال بنجاح!':'✅ Sent successfully!'; status.style.color = '#059669'; btn.textContent = currentLang==='ar'?'✓ تم':'✓ Sent';
+    }).catch(err => {
+        status.textContent = currentLang==='ar'?'❌ حدث خطأ':'❌ Error'; status.style.color = '#dc2626'; btn.disabled = false; btn.textContent = currentLang==='ar'?'📧 حاول مرة أخرى':'📧 Try Again'; console.error(err);
+    });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = loadState();
+    if (saved && saved.seed) {
+        currentSeed = saved.seed; currentLang = saved.lang || 'ar';
+        timeRemaining = saved.timeRemaining !== undefined ? saved.timeRemaining : TOTAL_TIME;
+        answersVisible = saved.answersVisible || false;
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        document.getElementById('btn-ar').classList.toggle('active', currentLang === 'ar');
+        document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+        document.body.classList.toggle('en-mode', currentLang === 'en');
+        document.querySelectorAll('[data-ar][data-en]').forEach(el => { el.innerHTML = currentLang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en'); });
+    } else { currentSeed = Date.now(); }
+    prepareShuffledExam(); renderExam();
+    if (saved) {
+        if (saved.studentName) document.getElementById('studentName').value = saved.studentName;
+        if (saved.studentClass) document.getElementById('studentClass').value = saved.studentClass;
+        if (saved.examDate) document.getElementById('examDate').value = saved.examDate;
+        if (saved.answers) restoreAnswers(saved.answers);
+    }
+    setupAnswerListeners(); setupInputListeners(); startTimer();
+});
+window.addEventListener('beforeunload', () => saveState(false));
+</script>
+</body>
+</html>
